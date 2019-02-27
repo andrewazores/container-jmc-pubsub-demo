@@ -1,0 +1,40 @@
+== SEE ALSO
+This repository is meant as a supplemental demo for the JMXClient at
+https://github.com/andrewazores/container-jmx .
+
+== REQUIREMENTS
+JDK
+Podman/Docker
+Gradle
+
+== BUILD
+Use the included `build.sh` script, which will invoke `./gradlew build` to
+compile the project sources as well as the appropriate container management
+command to build an image.
+
+== RUN
+For convenience, `sh run.sh` can be used to run a demo. This will run two
+containers with images containing the Publisher and Subscriber classes and the
+RJMX ports exposed. The Subscriber image simply listens on its localhost port
+9090 and periodically writes lines it receives to its stdout stream. The
+Publisher connects to the Subscriber on port 9090 and writes randomly generated
+numbers at random intervals. A Client container will also be run alongside the
+Publisher and Subscriber.
+
+Within the Docker bridged network the Publisher can be identified via its
+hostname of "jmx-publisher". Likewise, the Subscriber can be identified with
+"jmx-subscriber".
+
+If you run run.sh with no arguments then the Client container is started in an
+interactive shell-like mode. If you run it with arguments then the arguments
+are treated as a series of shell-like commands delimited with semicolons,
+equivalent to typing the commands into the shell in interactive mode.
+
+=== EXAMPLES
+
+`sh build.sh && sh run.sh`
+This will set up the demo Publisher, Subscriber, and Client and drop you into
+the Client "shell". Try "help" to see a listing of available commands.
+
+There is a demo "script" located in the "demos" directory. This can be used as
+follows: `sh run.sh "$(more demos/pubsub)"`.
