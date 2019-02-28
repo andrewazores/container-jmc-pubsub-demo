@@ -1,8 +1,8 @@
 connect jmx-publisher:9091;
-dump pub 10 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true;
+dump pub 10 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true,jdk.PhysicalMemory:enabled=true,jdk.CPULoad:enabled=true,jdk.ThreadCPULoad:enabled=true;
 
 connect jmx-subscriber:9091;
-dump sub 10 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true;
+dump sub 10 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true,jdk.PhysicalMemory:enabled=true,jdk.CPULoad:enabled=true,jdk.ThreadCPULoad:enabled=true;
 wait-for sub;
 wait-for-download sub;
 
