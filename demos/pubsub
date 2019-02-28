@@ -1,12 +1,11 @@
 connect jmx-publisher:9091;
 dump pub 10 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true;
 
-disconnect;
 connect jmx-subscriber:9091;
 dump sub 10 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true;
 wait-for sub;
 wait-for-download sub;
 
-disconnect;
 connect jmx-publisher:9091;
+wait-for pub;
 wait-for-download pub;
