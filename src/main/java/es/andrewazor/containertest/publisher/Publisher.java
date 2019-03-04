@@ -35,16 +35,14 @@ public class Publisher implements Runnable {
 
         try {
             while (true) {
-                try {
-                    final int num = (int) (Math.random() * 500);
+                for (int i = 0; i < 1024; i++) {
+                    final int num = (int) (Math.random() * 20);
                     String s = Integer.toString(num);
-                    System.out.println(String.format("Sending \"%s\"", s));
                     this.messagePasser.send(s);
-                    Thread.sleep(num);
-                } catch (InterruptedException ie) {
-                    break;
                 }
+                Thread.sleep(100);
             }
+        } catch (InterruptedException ie) {
         } finally {
             this.messagePasser.stop();
         }

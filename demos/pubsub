@@ -1,11 +1,12 @@
-connect jmx-publisher:9091;
-dump pub 30 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true,jdk.PhysicalMemory:enabled=true,jdk.CPULoad:enabled=true,jdk.ThreadCPULoad:enabled=true;
-
 connect jmx-subscriber:9091;
-dump sub 30 jdk.SocketRead:enabled=true,jdk.SocketWrite:enabled=true,jdk.PhysicalMemory:enabled=true,jdk.CPULoad:enabled=true,jdk.ThreadCPULoad:enabled=true;
-wait-for sub;
-wait-for-download sub;
+dump sub 15 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true;
 
 connect jmx-publisher:9091;
+dump pub 15 jdk.SocketWrite:enabled=true;
+
 wait-for pub;
 wait-for-download pub;
+
+connect jmx-subscriber:9091;
+wait-for sub;
+wait-for-download sub;

@@ -13,6 +13,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 
+import jdk.jfr.Event;
+import jdk.jfr.Label;
+
 public class MessagePasser {
 
     private enum State {
@@ -22,7 +25,7 @@ public class MessagePasser {
         ;
     }
 
-    private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(4);
+    private static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(2);
 
     private final BlockingQueue<String> inQ = new LinkedBlockingQueue<>();
     private final BlockingQueue<String> outQ = new LinkedBlockingQueue<>();
@@ -48,12 +51,16 @@ public class MessagePasser {
         return !inQ.isEmpty();
     }
 
-    public String consume() {
-        return inQ.remove();
+    public int inQueueCount() {
+        return inQ.size();
     }
 
-    public void send(String s) {
-        outQ.add(s);
+    public String consume() throws InterruptedException {
+        return inQ.take();
+    }
+
+    public void send(String s) throws InterruptedException {
+        outQ.put(s);
     }
 
     private class Connector implements Runnable {
@@ -130,7 +137,12 @@ public class MessagePasser {
             System.out.println("Receiver started");
             String inputLine;
             while (state.equals(State.RUNNING) && (inputLine = br.readLine()) != null) {
+                ReceiveEvent evt = new ReceiveEvent();
+                evt.begin();
+                evt.msg = inputLine;
                 inQ.add(inputLine);
+                evt.end();
+                evt.commit();
             }
             System.out.println("Receiver completed");
         }
@@ -146,12 +158,29 @@ public class MessagePasser {
             System.out.println("Sender started");
             String toSend;
             while ((toSend = outQ.take()) != null && state.equals(State.RUNNING)) {
+                SendEvent evt = new SendEvent();
+                evt.begin();
+                evt.msg = toSend;
+
                 bw.write(toSend);
                 bw.newLine();
                 bw.flush();
+
+                evt.end();
+                evt.commit();
             }
             System.out.println("Sender completed");
         }
+    }
+
+    @Label("SendEvent")
+    private static class SendEvent extends Event {
+        @Label("msg") String msg;
+    }
+
+    @Label("ReceiveEvent")
+    private static class ReceiveEvent extends Event {
+        @Label("msg") String msg;
     }
 
 }
