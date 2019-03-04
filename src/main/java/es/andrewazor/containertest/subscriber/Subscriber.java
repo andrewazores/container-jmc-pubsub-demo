@@ -41,7 +41,7 @@ public class Subscriber implements Runnable {
     @Override
     public void run() {
         SCHEDULED_EXECUTOR.scheduleAtFixedRate(this::monitorWorkQueue, 0, 100, TimeUnit.MILLISECONDS);
-        SCHEDULED_EXECUTOR.schedule(() -> this.factorial.setCached(true), 15, TimeUnit.SECONDS);
+        SCHEDULED_EXECUTOR.schedule(() -> this.factorial.setCached(true), 7, TimeUnit.SECONDS);
 
         try {
             this.messagePasser.startListening(9090);
