@@ -1,8 +1,8 @@
 connect jmx-subscriber:9091;
-dump sub 15 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true;
+dump sub 20 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true,jdk.PhysicalMemory:enabled=true;
 
 connect jmx-publisher:9091;
-dump pub 15 jdk.SocketWrite:enabled=true;
+dump pub 20 jdk.SocketWrite:enabled=true;
 
 wait-for pub;
 wait-for-download pub;

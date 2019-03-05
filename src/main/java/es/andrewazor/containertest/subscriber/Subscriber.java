@@ -11,7 +11,7 @@ import jdk.jfr.Label;
 
 public class Subscriber implements Runnable {
 
-    private static final int NUM_WORKERS = 4;
+    private static final int NUM_WORKERS = 8;
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(NUM_WORKERS);
     private static final ScheduledExecutorService SCHEDULED_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
@@ -41,7 +41,7 @@ public class Subscriber implements Runnable {
     @Override
     public void run() {
         SCHEDULED_EXECUTOR.scheduleAtFixedRate(this::monitorWorkQueue, 0, 100, TimeUnit.MILLISECONDS);
-        SCHEDULED_EXECUTOR.schedule(() -> this.factorial.setCached(true), 7, TimeUnit.SECONDS);
+        SCHEDULED_EXECUTOR.schedule(() -> this.factorial.setCached(true), 10, TimeUnit.SECONDS);
 
         try {
             this.messagePasser.startListening(9090);

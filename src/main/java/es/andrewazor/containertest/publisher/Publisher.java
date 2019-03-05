@@ -35,7 +35,7 @@ public class Publisher implements Runnable {
 
         try {
             while (true) {
-                for (int i = 0; i < 1024; i++) {
+                for (int i = 0; i < 2048; i++) {
                     final int num = (int) (Math.random() * 20);
                     String s = Integer.toString(num);
                     this.messagePasser.send(s);
