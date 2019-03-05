@@ -18,7 +18,7 @@ class MemoizingFactorial {
     private final AtomicBoolean cached = new AtomicBoolean(false);
 
     BigInteger compute(BigInteger num) {
-        if (num.compareTo(BigInteger.ZERO) < 0) {
+        if (num.compareTo(new BigInteger("0")) < 0) {
             return new BigInteger("0");
         }
         if (map.containsKey(num)) {
