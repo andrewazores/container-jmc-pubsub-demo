@@ -17,7 +17,7 @@ public class Subscriber implements Runnable {
 
     private final MessagePasser messagePasser;
     private final MemoizingFactorial factorial;
-    private final Fibonacci fibonacci;
+    private final MemoizingFibonacci fibonacci;
 
     public static void main(final String[] args) {
         final Thread t = new Thread(new Subscriber());
@@ -35,13 +35,14 @@ public class Subscriber implements Runnable {
         this.messagePasser = new MessagePasser();
         this.factorial = new MemoizingFactorial();
         this.factorial.setCached(false);
-        this.fibonacci = new Fibonacci();
+        this.fibonacci = new MemoizingFibonacci();
     }
 
     @Override
     public void run() {
         SCHEDULED_EXECUTOR.scheduleAtFixedRate(this::monitorWorkQueue, 0, 100, TimeUnit.MILLISECONDS);
         SCHEDULED_EXECUTOR.schedule(() -> this.factorial.setCached(true), 10, TimeUnit.SECONDS);
+        SCHEDULED_EXECUTOR.schedule(() -> this.fibonacci.setCached(true), 10, TimeUnit.SECONDS);
 
         try {
             this.messagePasser.startListening(9090);
