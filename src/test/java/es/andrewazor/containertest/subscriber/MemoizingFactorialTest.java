@@ -21,6 +21,8 @@ public class MemoizingFactorialTest {
     @Test
     public void testNegative() {
         assertThat("negative is handled by returning 0", factorial.compute(BigInteger.valueOf(-1L)), equalTo(BigInteger.ZERO));
+        factorial.setCached(true);
+        assertThat("negative is handled by returning 0", factorial.compute(BigInteger.valueOf(-1L)), equalTo(BigInteger.ZERO));
     }
 
     @Test
@@ -50,6 +52,8 @@ public class MemoizingFactorialTest {
 
     private void testImpl(int num, int expected) {
         assertThat(String.format("%d! is %d", num, expected), factorial.compute(BigInteger.valueOf(num)), equalTo(BigInteger.valueOf(expected)));
+        factorial.setCached(true);
+        assertThat(String.format("cached %d! is %d", num, expected), factorial.compute(BigInteger.valueOf(num)), equalTo(BigInteger.valueOf(expected)));
     }
 
 }

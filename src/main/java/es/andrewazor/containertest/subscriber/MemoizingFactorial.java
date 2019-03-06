@@ -18,17 +18,35 @@ class MemoizingFactorial {
     private final AtomicBoolean cached = new AtomicBoolean(false);
 
     BigInteger compute(BigInteger num) {
-        if (num.compareTo(new BigInteger("0")) < 0) {
-            return new BigInteger("0");
+        if (cached.get()) {
+            return computeCached(num);
+        }
+        return computeNonCached(num);
+    }
+
+    private BigInteger computeCached(BigInteger num) {
+        if (num.compareTo(BigInteger.ZERO) < 0) {
+            return BigInteger.ZERO;
         }
         if (map.containsKey(num)) {
             return map.get(num);
         }
-        BigInteger result = num.multiply(compute(num.subtract(new BigInteger("1"))));
-        if (cached.get()) {
-            map.put(num, result);
-        }
+        BigInteger result = num.multiply(compute(num.subtract(BigInteger.ONE)));
+        map.put(num, result);
         return result;
+    }
+
+    private BigInteger computeNonCached(BigInteger num) {
+        if (num.compareTo(new BigInteger("0")) < 0) {
+            return new BigInteger("0");
+        }
+        if (num.compareTo(new BigInteger("0")) == 0) {
+            return new BigInteger("1");
+        }
+        if (num.compareTo(new BigInteger("1")) == 0) {
+            return new BigInteger("1");
+        }
+        return num.multiply(compute(num.subtract(new BigInteger("1"))));
     }
 
     void setCached(boolean cached) {
