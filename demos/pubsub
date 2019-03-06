@@ -1,5 +1,5 @@
 connect jmx-subscriber:9091;
-dump sub 20 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true,jdk.PhysicalMemory:enabled=true,jdk.ObjectCount:enabled=true,jdk.ObjectCountAfterGC:enabled=true;
+dump sub 20 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true,jdk.ObjectCount:enabled=true,jdk.ObjectCountAfterGC:enabled=true,jdk.GCHeapSummary:enabled=true,jdk.ThreadContextSwitchRate:enabled=true,jdk.ThreadPark:enabled=true,jdk.JavaMonitorEnter:enabled=true;
 
 connect jmx-publisher:9091;
 dump pub 20 jdk.SocketWrite:enabled=true;
