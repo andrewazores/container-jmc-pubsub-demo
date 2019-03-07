@@ -23,6 +23,7 @@ docker run --rm --net=jmx-test --name jmx-publisher -d andrewazores/container-jm
 
 docker run \
     --net=jmx-test \
+    --name jmx-client \
     -e CONTAINER_DOWNLOAD_HOST=$CONTAINER_DOWNLOAD_HOST \
     -e CONTAINER_DOWNLOAD_PORT=$CONTAINER_DOWNLOAD_PORT \
     --rm -it andrewazores/container-jmx-client "$@"
