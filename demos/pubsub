@@ -1,3 +1,6 @@
+connect jmx-client:9091;
+dump client 20 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true,jdk.ObjectCount:enabled=true,jdk.ObjectCountAfterGC:enabled=true,jdk.GCHeapSummary:enabled=true,jdk.ThreadContextSwitchRate:enabled=true,jdk.ThreadPark:enabled=true,jdk.JavaMonitorEnter:enabled=true;
+
 connect jmx-subscriber:9091;
 dump sub 20 jdk.SocketRead:enabled=true,jdk.GarbageCollection:enabled=true,jdk.ObjectCount:enabled=true,jdk.ObjectCountAfterGC:enabled=true,jdk.GCHeapSummary:enabled=true,jdk.ThreadContextSwitchRate:enabled=true,jdk.ThreadPark:enabled=true,jdk.JavaMonitorEnter:enabled=true;
 
@@ -10,3 +13,7 @@ wait-for-download pub;
 connect jmx-subscriber:9091;
 wait-for sub;
 wait-for-download sub;
+
+connect jmx-client:9091;
+wait-for client;
+wait-for-download client;
